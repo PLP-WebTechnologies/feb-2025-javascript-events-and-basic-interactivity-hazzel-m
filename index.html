@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Interactive Web Page</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    button:hover {
+      background-color: #4caf50;
+      color: white;
+    }
+    .tabs button {
+      margin-right: 10px;
+    }
+    .tab-content {
+      display: none;
+      margin-top: 10px;
+    }
+    .tab-content.active {
+      display: block;
+    }
+    .gallery img {
+      width: 200px;
+      margin-right: 10px;
+      transition: transform 0.5s;
+    }
+    .gallery img:hover {
+      transform: scale(1.1);
+    }
+    .error {
+      color: red;
+      font-size: 0.9em;
+    }
+    .valid {
+      color: green;
+      font-size: 0.9em;
+    }
+  </style>
+</head>
+<body>
+  <h1>Interactive Web Page</h1>
+
+  <!-- Event Handling -->
+  <button id="actionBtn">Click me!</button>
+  <p id="keyPressInfo"></p>
+
+  <!-- Interactive Elements -->
+  <h2>Gallery</h2>
+  <div class="gallery">
+    <img src="https://images.pexels.com/photos/31901287/pexels-photo-31901287/free-photo-of-elegant-dining-table-with-pink-flowers-and-lantern.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Sample 1">
+    <img src="https://images.pexels.com/photos/31951425/pexels-photo-31951425/free-photo-of-elegant-coffee-table-setting-with-tulip-decor.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Sample 2">
+  </div>
+
+  <h2>Tabs</h2>
+  <div class="tabs">
+    <button onclick="showTab('tab1')">Tab 1</button>
+    <button onclick="showTab('tab2')">Tab 2</button>
+  </div>
+  <div id="tab1" class="tab-content">Content for Tab 1</div>
+  <div id="tab2" class="tab-content">Content for Tab 2</div>
+
+  <!-- Form Validation -->
+  <h2>Sign Up</h2>
+  <form id="signupForm">
+    <label>Email: <input type="email" id="email" required></label><br />
+    <span id="emailFeedback"></span><br />
+
+    <label>Password: <input type="password" id="password" required></label><br />
+    <span id="passwordFeedback"></span><br />
+
+    <button type="submit">Submit</button>
+  </form>
+
+  <script>
+    // Event handling
+    const actionBtn = document.getElementById("actionBtn");
+    let clickCount = 0;
+
+    actionBtn.addEventListener("click", () => {
+      actionBtn.textContent = "Clicked!";
+    });
+
+    actionBtn.addEventListener("dblclick", () => {
+      alert("Secret double-click action! 🎉");
+    });
+
+    actionBtn.addEventListener("contextmenu", (e) => {
+      e.preventDefault();
+      alert("Secret long press action! (Right-click) 🤐");
+    });
+
+    document.addEventListener("keydown", (e) => {
+      document.getElementById("keyPressInfo").textContent = `You pressed: ${e.key}`;
+    });
+
+    // Tabs functionality
+    function showTab(tabId) {
+      document.querySelectorAll(".tab-content").forEach(el => el.classList.remove("active"));
+      document.getElementById(tabId).classList.add("active");
+    }
+
+    // Real-time form validation
+    const emailInput = document.getElementById("email");
+    const emailFeedback = document.getElementById("emailFeedback");
+    const passwordInput = document.getElementById("password");
+    const passwordFeedback = document.getElementById("passwordFeedback");
+
+    emailInput.addEventListener("input", () => {
+      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (emailPattern.test(emailInput.value)) {
+        emailFeedback.textContent = "Valid email!";
+        emailFeedback.className = "valid";
+      } else {
+        emailFeedback.textContent = "Invalid email format.";
+        emailFeedback.className = "error";
+      }
+    });
+
+    passwordInput.addEventListener("input", () => {
+      if (passwordInput.value.length >= 8) {
+        passwordFeedback.textContent = "Strong password!";
+        passwordFeedback.className = "valid";
+      } else {
+        passwordFeedback.textContent = "Password must be at least 8 characters.";
+        passwordFeedback.className = "error";
+      }
+    });
+
+    document.getElementById("signupForm").addEventListener("submit", (e) => {
+      e.preventDefault();
+      alert("Form submitted successfully!");
+    });
+  </script>
+</body>
+</html>
